@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import '../services/api_service.dart';
@@ -5,7 +7,7 @@ import '../services/db_service.dart';
 import 'success_screen.dart';
 
 class LoginScreen extends StatefulWidget {
-  const LoginScreen({Key? key}) : super(key: key);
+  const LoginScreen({super.key});
 
   @override
   _LoginScreenState createState() => _LoginScreenState();
@@ -20,7 +22,6 @@ class _LoginScreenState extends State<LoginScreen> {
   Future<void> _login() async {
     if (!_formKey.currentState!.validate()) return;
 
-    //loading indicate
     setState(() {
       _isLoading = true;
     });
@@ -28,45 +29,60 @@ class _LoginScreenState extends State<LoginScreen> {
     final username = _usernameController.text.trim();
     final password = _passwordController.text.trim();
 
+
+
     try {
-      // Call Api
+      //  API Service 
       final response = await ApiService.login(username, password);
-      print('Login response: $response');
 
       if (response['Status_Code'] == 200) {
-        // Get the API data form the document Enhanzer company provide
+
+        // Extract user data from API response
         final userData = response['Response_Body'][0];
+
+        
         final user = {
-          'userCode': userData['EZCMP1/EZUSR-1'],
-          'displayName': userData['eZuite Admin'],
-          'email': userData['info@enhanzer.com'],
-          'User_Employee_Code': userData['EZCMP1/EZLOC2/EMP-7'],
-          'Company_Code': userData['EZCMP-1'],
-          'User_Locations': userData['userLocations'],
-          'User_Permissions': userData['userPermissions'],
+          'userCode': userData['User_Code'],
+          'displayName': userData['User_Display_Name'],
+          'email': userData['Email'],
+          'User_Employee_Code': userData['User_Employee_Code'],
+          'Company_Code': userData['Company_Code'],
+          'User_Locations': json.encode(userData['User_Locations']),
+          'User_Permissions': json.encode(userData['User_Permissions']),
         };
 
-        // Save the data to Database
+        // Save  to the database
         await DBService.instance.saveUser(user);
 
-        // Navigate to Success Screen login is Successfully
+        // get the success message from API 
+          Fluttertoast.showToast(
+          msg: "Login success: ${response['Message']}",
+          toastLength: Toast.LENGTH_LONG,
+          gravity: ToastGravity.CENTER,
+        );
+
+        // Navigate to Success Screen
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(builder: (context) => const SuccessScreen()),
         );
+
       } else {
+        // Show error message from API response
         Fluttertoast.showToast(
           msg: "Login failed: ${response['Message']}",
           toastLength: Toast.LENGTH_LONG,
           gravity: ToastGravity.CENTER,
         );
       }
+
     } catch (e) {
       Fluttertoast.showToast(
         msg: "Error: $e",
         toastLength: Toast.LENGTH_LONG,
         gravity: ToastGravity.CENTER,
       );
+
     } finally {
       setState(() {
         _isLoading = false;
@@ -88,10 +104,10 @@ class _LoginScreenState extends State<LoginScreen> {
               children: [
                 const SizedBox(height: 50),
 
-                // Company logo
+                // Enhanzer logo
                 Center(
                   child: Image.asset(
-                    "assets/Enhanzer logo.jpg",
+                    "assets/logo.png",
                     height: 100,
                   ),
                 ),
@@ -108,7 +124,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
                 const SizedBox(height: 8),
                 const Text(
-                  'Login in to continue.',
+                  'Login to continue.',
                   style: TextStyle(
                     fontSize: 16,
                     color: Colors.grey,
@@ -119,7 +135,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 // Username Field
                 TextFormField(
                   controller: _usernameController,
-                  maxLength: 40, //Valitade the Length of UserName
+                  maxLength: 40, // Validate the length of the username
                   decoration: InputDecoration(
                     labelText: 'USER NAME',
                     labelStyle: const TextStyle(
@@ -136,7 +152,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     counterText: '',
                   ),
 
-                  //User Name Filed Validation
+                  // Username Field Validation
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'Username cannot be empty';
@@ -150,7 +166,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 TextFormField(
                   controller: _passwordController,
                   obscureText: true,
-                  maxLength: 30, //Valitade the Length of Password
+                  maxLength: 30, // Validate the length of the password
                   decoration: InputDecoration(
                     labelText: 'PASSWORD',
                     labelStyle: const TextStyle(
@@ -167,7 +183,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     counterText: '',
                   ),
 
-                  //Password Filed Validation
+                  // Password Field Validation
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'Password cannot be empty';

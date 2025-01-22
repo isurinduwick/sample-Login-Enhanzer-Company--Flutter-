@@ -5,6 +5,7 @@ class ApiService {
   static const String apiUrl =
       'https://api.ezuite.com/api/External_Api/Mobile_Api/Invoke';
 
+  /// Sends login request to the API
   static Future<Map<String, dynamic>> login(String username, String password) async {
     final requestBody = {
       "API_Body": [
@@ -19,9 +20,17 @@ class ApiService {
       headers: {"Content-Type": "application/json"},
       body: json.encode(requestBody),
     );
+    //print("header----------"); 
+    //print(response.headers);  
+    // print("header----------");   // Print response headers
+   
+     //print("body" + response.body); 
+   
+    
+
 
     if (response.statusCode == 200) {
-      return json.decode(response.body);
+      return json.decode(response.body); // Parse JSON response
     } else {
       throw Exception('Failed to login: ${response.body}');
     }
