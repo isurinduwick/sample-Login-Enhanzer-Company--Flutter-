@@ -4,7 +4,10 @@ import 'screens/login_screen.dart';
 import 'screens/success_screen.dart';
 
 void main() async {
+  // Ensure all platform plugins are initialized before the app starts
   WidgetsFlutterBinding.ensureInitialized();
+
+  // Retrieve the login state from SharedPreferences
   final prefs = await SharedPreferences.getInstance();
   final isLoggedIn = prefs.getBool('isLoggedIn') ?? false;
 
@@ -21,6 +24,10 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Enhanzer Sample Login',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+      ),
+      // Start with the appropriate screen based on the login state
       home: isLoggedIn ? const SuccessScreen() : const LoginScreen(),
     );
   }
