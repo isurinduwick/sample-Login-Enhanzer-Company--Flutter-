@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'screens/login_screen.dart';
-import 'screens/success_screen.dart';
+import 'Views/login_screen.dart';
+import 'Views/success_screen.dart';
 
 void main() async {
-
   // all plugins are initialized before the start app
   WidgetsFlutterBinding.ensureInitialized();
 
@@ -16,6 +15,7 @@ void main() async {
 }
 
 class MyApp extends StatelessWidget {
+  
   final bool isLoggedIn;
 
   const MyApp({super.key, required this.isLoggedIn});
@@ -28,7 +28,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      
+
       // Start with the appropriate screen based on the login state
       home: isLoggedIn ? const SuccessScreen() : const LoginScreen(),
     );

@@ -3,17 +3,21 @@ import 'package:path/path.dart';
 import 'dart:convert';
 
 class DBService {
+  // Properties
   static final DBService instance = DBService._init();
   static Database? _database;
 
+  // Constructor
   DBService._init();
 
+  // Getter for the database
   Future<Database> get database async {
     if (_database != null) return _database!;
     _database = await _initDB('user_data.db');
     return _database!;
   }
 
+  // Initialize the database
   Future<Database> _initDB(String filePath) async {
     final dbPath = await getDatabasesPath();
     final path = join(dbPath, filePath);
@@ -25,6 +29,7 @@ class DBService {
     );
   }
 
+  // Create the database
   Future<void> _createDB(Database db, int version) async {
     const userTable = '''
       CREATE TABLE users (
@@ -36,9 +41,7 @@ class DBService {
         Company_Code TEXT,
         User_Locations TEXT,
         User_Permissions TEXT
-      )
-    ''';
-
+      ) ''';
     await db.execute(userTable);
   }
 
@@ -66,3 +69,17 @@ class DBService {
     );
   }
 }
+
+//use to confirm if data save corectly
+/*Future<List<Map<String, dynamic>>> getUsers(dynamic instance) async {
+    final db = await instance.database;
+
+    final result = await db.query('users');
+
+    // Decode JSON strings back to lists for User_Locations and User_Permissions
+    return result.map((user) {
+      user['User_Locations'] = json.decode(user['User_Locations']);
+      user['User_Permissions'] = json.decode(user['User_Permissions']);
+      return user;
+    }).toList();
+  }*/
