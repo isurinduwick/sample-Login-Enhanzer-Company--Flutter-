@@ -1,6 +1,6 @@
 # Sample Login App 
 
-This is a sample Flutter project demonstrating a login functionality designed for **Enhanzer Company**. The project showcases best practices in Flutter development, including API integration, database management, and navigation.
+This is a sample Flutter project demonstrating a login functionality . The project showcases Flutter development, including API integration, database management, and navigation.
 
 ---
 
