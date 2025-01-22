@@ -58,7 +58,7 @@ Widget _buildLogo() {
   return Center(
     child: Image.asset(
       "assets/logo.png",
-      height: 100,
+      height: 80,
     ),
   );
 }
@@ -107,9 +107,13 @@ Widget _buildUsernameField() {
       ),
       counterText: '',
     ),
+
+    // Username validation
     validator: (value) {
       if (value == null || value.isEmpty) {
         return 'Username cannot be empty';
+      } else if (value.length < 3) {
+        return 'Username must be at least 3 characters';
       }
       return null;
     },
@@ -137,6 +141,8 @@ Widget _buildPasswordField() {
       ),
       counterText: '',
     ),
+
+    // Password validation
     validator: (value) {
       if (value == null || value.isEmpty) {
         return 'Password cannot be empty';
