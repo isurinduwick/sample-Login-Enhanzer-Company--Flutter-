@@ -42,7 +42,7 @@ class DBService {
     await db.execute(userTable);
   }
 
-  /// Save a user's data into the database.
+  // Save user's data in to the Database 
   Future<void> saveUser(Map<String, dynamic> user) async {
     final db = await instance.database;
 

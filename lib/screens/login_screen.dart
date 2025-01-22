@@ -31,8 +31,8 @@ class _LoginScreenState extends State<LoginScreen> {
 
     try {
 
-      // 
-
+      //  API Service
+      
       final response = await ApiService.login(username, password);
 
       if (response['Status_Code'] == 200) {
@@ -69,7 +69,9 @@ class _LoginScreenState extends State<LoginScreen> {
           context,
           MaterialPageRoute(builder: (context) => const SuccessScreen()),
         );
+
       } else {
+
         // Show error message from API response
         Fluttertoast.showToast(
           msg: "Login failed: ${response['Message']}",
@@ -77,12 +79,15 @@ class _LoginScreenState extends State<LoginScreen> {
           gravity: ToastGravity.CENTER,
         );
       }
+
     } catch (e) {
+
       Fluttertoast.showToast(
         msg: "Error: $e",
         toastLength: Toast.LENGTH_LONG,
         gravity: ToastGravity.CENTER,
       );
+      
     } finally {
       setState(() {
         _isLoading = false;

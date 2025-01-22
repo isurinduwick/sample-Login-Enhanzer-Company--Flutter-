@@ -5,7 +5,7 @@ import 'login_screen.dart';
 class SuccessScreen extends StatelessWidget {
   const SuccessScreen({super.key});
 
-  // Method to handle logout confirmation
+  //  logout confirmation Handling Method 
   void _showLogoutConfirmation(BuildContext context) {
     showDialog(
       context: context,
@@ -20,8 +20,10 @@ class SuccessScreen extends StatelessWidget {
               },
               child: const Text('Cancel'),
             ),
+
             TextButton(
               onPressed: () async {
+
                 // Update SharedPreferences to mark the user as logged out
                 final prefs = await SharedPreferences.getInstance();
                 await prefs.setBool('isLoggedIn', false);
@@ -33,6 +35,7 @@ class SuccessScreen extends StatelessWidget {
                   (route) => false, // Clear all previous routes
                 );
               },
+              
               child: const Text(
                 'Logout',
                 style: TextStyle(color: Colors.red),

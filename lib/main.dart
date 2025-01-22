@@ -4,7 +4,8 @@ import 'screens/login_screen.dart';
 import 'screens/success_screen.dart';
 
 void main() async {
-  // Ensure all platform plugins are initialized before the app starts
+
+  // all plugins are initialized before the start app
   WidgetsFlutterBinding.ensureInitialized();
 
   // Retrieve the login state from SharedPreferences
@@ -27,6 +28,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
+      
       // Start with the appropriate screen based on the login state
       home: isLoggedIn ? const SuccessScreen() : const LoginScreen(),
     );
