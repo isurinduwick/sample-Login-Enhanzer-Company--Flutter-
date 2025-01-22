@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'login_screen.dart';
 
 class SuccessScreen extends StatelessWidget {
@@ -13,7 +14,9 @@ class SuccessScreen extends StatelessWidget {
           content: const Text('Are you sure you want to log out?'),
           actions: [
             TextButton(
-              onPressed: () {
+              onPressed: () async {
+              final prefs = await SharedPreferences.getInstance();
+              await prefs.setBool('isLoggedIn', false); // Update login state
                 Navigator.pop(context); // Close the alert
               },
               child: const Text('Cancel'),

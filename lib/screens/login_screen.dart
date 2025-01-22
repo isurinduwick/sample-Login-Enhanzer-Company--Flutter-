@@ -1,5 +1,5 @@
 import 'dart:convert';
-
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import '../services/api_service.dart';
@@ -29,10 +29,10 @@ class _LoginScreenState extends State<LoginScreen> {
     final username = _usernameController.text.trim();
     final password = _passwordController.text.trim();
 
-
-
     try {
-      //  API Service 
+
+      // 
+
       final response = await ApiService.login(username, password);
 
       if (response['Status_Code'] == 200) {
@@ -40,7 +40,6 @@ class _LoginScreenState extends State<LoginScreen> {
         // Extract user data from API response
         final userData = response['Response_Body'][0];
 
-        
         final user = {
           'userCode': userData['User_Code'],
           'displayName': userData['User_Display_Name'],
@@ -54,8 +53,12 @@ class _LoginScreenState extends State<LoginScreen> {
         // Save  to the database
         await DBService.instance.saveUser(user);
 
-        // get the success message from API 
-          Fluttertoast.showToast(
+        // Save login state to SharedPreferences
+        final prefs = await SharedPreferences.getInstance();
+        await prefs.setBool('isLoggedIn', true);
+
+        // get the success message from API
+        Fluttertoast.showToast(
           msg: "Login success: ${response['Message']}",
           toastLength: Toast.LENGTH_LONG,
           gravity: ToastGravity.CENTER,
@@ -66,7 +69,6 @@ class _LoginScreenState extends State<LoginScreen> {
           context,
           MaterialPageRoute(builder: (context) => const SuccessScreen()),
         );
-
       } else {
         // Show error message from API response
         Fluttertoast.showToast(
@@ -75,14 +77,12 @@ class _LoginScreenState extends State<LoginScreen> {
           gravity: ToastGravity.CENTER,
         );
       }
-
     } catch (e) {
       Fluttertoast.showToast(
         msg: "Error: $e",
         toastLength: Toast.LENGTH_LONG,
         gravity: ToastGravity.CENTER,
       );
-
     } finally {
       setState(() {
         _isLoading = false;
