@@ -42,14 +42,15 @@ class DBService {
     await db.execute(userTable);
   }
 
+  /// Save a user's data into the database.
   Future<void> saveUser(Map<String, dynamic> user) async {
     final db = await instance.database;
 
-    // Ensure arrays are saved as JSON strings
+    // Convert list fields to JSON strings before saving
     user['User_Locations'] = json.encode(user['User_Locations']);
     user['User_Permissions'] = json.encode(user['User_Permissions']);
 
-    // Insert data into the users table
+    // Insert the user data into the users table
     await db.insert(
       'users',
       {
