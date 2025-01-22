@@ -18,7 +18,10 @@ class SuccessScreen extends StatelessWidget {
               onPressed: () {
                 Navigator.pop(context); // Close the alert dialog
               },
-              child: const Text('Cancel'),
+              child: const Text(
+                'Cancel',
+                style: TextStyle(color: Color(0xFF4CAF50)),
+                ),
             ),
 
             TextButton(
@@ -35,7 +38,7 @@ class SuccessScreen extends StatelessWidget {
                   (route) => false, // Clear all previous routes
                 );
               },
-              
+
               child: const Text(
                 'Logout',
                 style: TextStyle(color: Colors.red),
@@ -55,12 +58,13 @@ class SuccessScreen extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+
             // Green circle with the checkmark
             Container(
               width: 120.0,
               height: 120.0,
               decoration: BoxDecoration(
-                color: Colors.green,
+                color: const Color(0xFF4CAF50),
                 shape: BoxShape.circle,
               ),
               child: const Icon(
@@ -70,6 +74,7 @@ class SuccessScreen extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 20.0),
+
             // Text "LOGIN SUCCESSFUL"
             const Text(
               'LOGIN SUCCESSFUL',
@@ -80,6 +85,7 @@ class SuccessScreen extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 40.0),
+
             // Logout Button
             ElevatedButton(
               onPressed: () => _showLogoutConfirmation(context),
@@ -90,6 +96,7 @@ class SuccessScreen extends StatelessWidget {
                   borderRadius: BorderRadius.circular(12.0),
                 ),
               ),
+
               child: const Text(
                 'Log Out',
                 style: TextStyle(
