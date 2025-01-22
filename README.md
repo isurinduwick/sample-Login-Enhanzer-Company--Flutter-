@@ -18,7 +18,7 @@ This is a sample Flutter project demonstrating a login functionality designed fo
 - Dart >= 2.19.0
 - Dependencies:
   - [http](https://pub.dev/packages/http) for API requests
-  - [shared_preferences](https://pub.dev/packages/shared_preferences) or equivalent for local storage
+  - [shared_preferences](https://pub.dev/packages/shared_preferences) 
 
 ---
 
